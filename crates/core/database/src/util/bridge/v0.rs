@@ -61,20 +61,24 @@ impl From<crate::Invite> for Invite {
         match value {
             crate::Invite::Group {
                 code,
+                url,
                 creator,
                 channel,
             } => Invite::Group {
                 code,
+                url,
                 creator,
                 channel,
             },
             crate::Invite::Server {
                 code,
+                url,
                 server,
                 creator,
                 channel,
             } => Invite::Server {
                 code,
+                url,
                 server,
                 creator,
                 channel,

@@ -1,3 +1,4 @@
+use revolt_config::config;
 use revolt_result::{create_error, Result};
 
 use crate::{Channel, Database, User};
@@ -17,6 +18,8 @@ auto_derived!(
             /// Invite code
             #[serde(rename = "_id")]
             code: String,
+            /// Invite code as url
+            url: String,
             /// Id of the server this invite points to
             server: String,
             /// Id of user who created this invite
@@ -29,6 +32,8 @@ auto_derived!(
             /// Invite code
             #[serde(rename = "_id")]
             code: String,
+            /// Invite code as url
+            url: String,
             /// Id of user who created this invite
             creator: String,
             /// Id of the group channel this invite points to
@@ -62,16 +67,20 @@ impl Invite {
         creator: &User,
         channel: &Channel,
     ) -> Result<Invite> {
-        let code = nanoid::nanoid!(8, &ALPHABET);
+        let code: String = nanoid::nanoid!(8, &ALPHABET);
+        let config: revolt_config::Settings = config().await;
+        let url: String = format!("{}/{}/invite", config.hosts.app.to_string(), code);
         let invite = match &channel {
             Channel::Group { id, .. } => Ok(Invite::Group {
                 code,
+                url: url.clone(),
                 creator: creator.id.clone(),
                 channel: id.clone(),
             }),
             Channel::TextChannel { id, server, .. } | Channel::VoiceChannel { id, server, .. } => {
                 Ok(Invite::Server {
                     code,
+                    url: url.clone(),
                     creator: creator.id.clone(),
                     server: server.clone(),
                     channel: id.clone(),
@@ -86,6 +95,9 @@ impl Invite {
 
     /// Resolve an invite by its ID or by a public server ID
     pub async fn find(db: &Database, code: &str) -> Result<Invite> {
+        let config: revolt_config::Settings = config().await;
+        let url: String = format!("{}/{}/invite", config.hosts.app.to_string(), code);
+
         if let Ok(invite) = db.fetch_invite(code).await {
             return Ok(invite);
         } else if let Ok(server) = db.fetch_server(code).await {
@@ -93,6 +105,7 @@ impl Invite {
                 if let Some(channel) = server.channels.into_iter().next() {
                     return Ok(Invite::Server {
                         code: code.to_string(),
+                        url: url.clone(),
                         server: server.id,
                         creator: server.owner,
                         channel,
