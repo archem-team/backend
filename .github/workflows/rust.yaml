@@ -33,40 +33,37 @@ jobs:
         with:
           crate: cargo-nextest
           locked: true
-
+      - name: Install Docker Compose
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y docker-compose
       - name: Run cargo build
         uses: actions-rs/cargo@v1
         with:
           command: build
-
       - name: Run services in background
         run: |
           docker-compose -f docker-compose.db.yml up -d
-
       - name: Copy .env.example
         run: |
           cp .env.example .env
-
       - name: Run cargo test
         env:
           TEST_DB: REFERENCE
         run: |
           cargo nextest run
-
       - name: Run cargo test (with MongoDB)
         env:
           TEST_DB: MONGODB
           MONGODB: mongodb://localhost
         run: |
           cargo nextest run
-
       - name: Start API in background
         if: github.event_name != 'pull_request' && github.ref_name == 'main'
         env:
           TEST_DB: REFERENCE
         run: |
           cargo build --bin revolt-delta && (cargo run --bin revolt-delta &)
-
       - name: Wait for API to go up
         if: github.event_name != 'pull_request' && github.ref_name == 'main'
         uses: nev7n/wait_for_response@v1
