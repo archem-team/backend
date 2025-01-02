@@ -1,5 +1,5 @@
 # Build Stage
-FROM ghcr.io/revoltchat/base:latest AS builder
+FROM ghcr.io/revoltchat/base:20240805-1 AS builder
 
 # Bundle Stage
 FROM debian:bullseye-slim
