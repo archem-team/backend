@@ -51,7 +51,7 @@ jobs:
           context: .
           push: ${{ github.event_name != 'pull_request' }}
           platforms: linux/amd64,linux/arm64
-          tags: ghcr.io/${{ secrets.DOCKERHUB_USERNAME }}/base:latest
+          tags: ghcr.io/teamabron/base:latest
           cache-from: type=gha,scope=buildx-base-multi-arch
           cache-to: type=gha,scope=buildx-base-multi-arch,mode=max
 
@@ -93,11 +93,11 @@ jobs:
             {
               "delta": {
                 "path": "crates/delta",
-                "tag": "${{ secrets.DOCKERHUB_USERNAME }}/server"
+                "tag": "ghcr.io/teamabron/server"
               },
               "bonfire": {
                 "path": "crates/bonfire",
-                "tag": "${{ secrets.DOCKERHUB_USERNAME }}/bonfire"
+                "tag": "ghcr.io/teamabron/bonfire"
               }
             }
           export_to: output
@@ -121,5 +121,5 @@ jobs:
           file: ${{ steps.export.outputs.path }}/Dockerfile
           tags: ${{ steps.meta.outputs.tags }}
           build-args: |
-            BASE_IMAGE=ghcr.io/${{ secrets.DOCKERHUB_USERNAME }}/base:latest
+            BASE_IMAGE=ghcr.io/teamabron/base:latest
           labels: ${{ steps.meta.outputs.labels }}
