@@ -93,11 +93,11 @@ jobs:
             {
               "delta": {
                 "path": "crates/delta",
-                "tag": "${{ github.repository_owner }}/server"
+                "tag": "${{ secrets.DOCKERHUB_USERNAME }}/server"
               },
               "bonfire": {
                 "path": "crates/bonfire",
-                "tag": "${{ github.repository_owner }}/bonfire"
+                "tag": "${{ secrets.DOCKERHUB_USERNAME }}/bonfire"
               }
             }
           export_to: output
@@ -121,5 +121,5 @@ jobs:
           file: ${{ steps.export.outputs.path }}/Dockerfile
           tags: ${{ steps.meta.outputs.tags }}
           build-args: |
-            BASE_IMAGE=ghcr.io/${{ github.repository_owner }}/base:latest
+            BASE_IMAGE=ghcr.io/${{ secrets.DOCKERHUB_USERNAME }}/base:latest
           labels: ${{ steps.meta.outputs.labels }}
