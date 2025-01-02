@@ -1,5 +1,5 @@
 # Build Stage
-FROM ghcr.io/revoltchat/base@sha256:f000fd94e2853b06747a1449962bacb233cfb195224854c00bbe6790444628ca AS builder
+FROM ghcr.io/teamabron/base:latest AS builder
 
 # Bundle Stage
 FROM debian:bullseye-slim
