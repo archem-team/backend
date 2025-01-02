@@ -81,8 +81,8 @@ jobs:
         uses: docker/login-action@v2
         with:
           registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          username: teamabron
+          password: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
 
       # Resolve the correct project
       - uses: kanga333/variable-mapper@master
