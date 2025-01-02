@@ -1,5 +1,5 @@
 # Build Stage
-FROM ghcr.io/revoltchat/base@sha256:7b8c4e9d15e22f2d5d1e3b6b0bd01ffa206f72078521628044f111529c54794b AS builder
+FROM ghcr.io/revoltchat/base@sha256:f000fd94e2853b06747a1449962bacb233cfb195224854c00bbe6790444628ca AS builder
 
 # Bundle Stage
 FROM debian:bullseye-slim
