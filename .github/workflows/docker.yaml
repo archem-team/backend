@@ -93,7 +93,7 @@ jobs:
             {
               "delta": {
                 "path": "crates/delta",
-                "tag": "${{ github.repository_owner }}/server"
+                "tag": "${{ secrets.DOCKERHUB_USERNAME }}/server"
               },
               "bonfire": {
                 "path": "crates/bonfire",
