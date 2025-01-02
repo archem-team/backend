@@ -22,6 +22,14 @@ pub async fn calculate_user_permissions<P: PermissionQuery>(query: &mut P) -> Pe
         }
         RelationshipStatus::Incoming | RelationshipStatus::Outgoing => {
             permissions = UserPermission::Access as u64;
+            permissions += UserPermission::SendMessage as u64;
+            return permissions.into();
+        }
+
+        RelationshipStatus::None => {
+            permissions = UserPermission::Access as u64;
+            permissions += UserPermission::SendMessage as u64;
+            return permissions.into();
         }
         _ => {}
     }

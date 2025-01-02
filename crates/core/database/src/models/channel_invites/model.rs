@@ -69,7 +69,7 @@ impl Invite {
     ) -> Result<Invite> {
         let code: String = nanoid::nanoid!(8, &ALPHABET);
         let config: revolt_config::Settings = config().await;
-        let url: String = format!("{}/{}/invite", config.hosts.app.to_string(), code);
+        let url: String = format!("{}/invite/{}/", config.hosts.app.to_string(), code);
         let invite = match &channel {
             Channel::Group { id, .. } => Ok(Invite::Group {
                 code,
@@ -96,7 +96,7 @@ impl Invite {
     /// Resolve an invite by its ID or by a public server ID
     pub async fn find(db: &Database, code: &str) -> Result<Invite> {
         let config: revolt_config::Settings = config().await;
-        let url: String = format!("{}/{}/invite", config.hosts.app.to_string(), code);
+        let url: String = format!("{}/invite/{}/", config.hosts.app.to_string(), code);
 
         if let Ok(invite) = db.fetch_invite(code).await {
             return Ok(invite);

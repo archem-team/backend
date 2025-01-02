@@ -5,7 +5,8 @@ use iso8601_timestamp::Timestamp;
 use revolt_config::{config, FeaturesLimits};
 use revolt_models::v0::{
     self, BulkMessageResponse, DataMessageSend, Embed, MessageAuthor, MessageFlags, MessageSort,
-    MessageWebhook, PushNotification, ReplyIntent, SendableEmbed, Text, RE_MENTION,
+    MessageWebhook, PushNotification, RelationshipStatus, ReplyIntent, SendableEmbed, Text,
+    RE_MENTION,
 };
 use revolt_permissions::{ChannelPermission, PermissionValue};
 use revolt_result::Result;
